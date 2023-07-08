@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="detail__img">
+  <img src="{{character.img}}" alt="{{character.name}}" />
+</div>
+
+
+<h1 class="title">{{character.name}}</h1>
+</div>
+<div class="detail__container">
+  <div class="detail__about">
+    <h4 class="title is-4">Location:</h4>
+    <p>{{character.location}}</p>
+  </div>
+</div>
+
+<br>
+<br>
+
+<!-- inside detail songs element below the header -->
+
+<!-- Here you can see the action we provided
+    is to the song_create route with the artist pk -->
+<form class="mb-5" action="{% url 'dialogue_create' character.pk %}" method="post">
+  {% csrf_token %}
+  <div class="field has-addons">
+    <div class="control">
+      <input class="input" type="text" name="quote" placeholder="Quote" required />
+    </div>
+    <div class="control">
+      <input class="input" type="text" name="meaning" placeholder="Meaning" required />
+    </div>
+    <div class="control">
+      <input class="button is-primary" type="submit" value="Add Quote" />
+    </div>
+  </div>
+</form>
+
+<!-- before the for loop for songs -->
+
+
+
+<div class="detail__songs mb-5">
+  <h3 class="title is-3">Quotes</h3>
+
+  {% for dialogue in character.dialogues.all %}
+  <div class="song">
+    <span>{{forloop.counter}}</span>
+    <span><b>"{{dialogue.quote}}"</b></span>
+    <br>
+    <span>What does it mean?? ---- {{dialogue.meaning}}</span>
+  </div>
+  {% empty %}
+  <article class="message">
+    <div class="message-header">
+      <p>No Quotes Available</p>
+    </div>
+  </article>
+
+  {% endfor %}
+</div>
+{% endblock %}
